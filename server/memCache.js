@@ -53,6 +53,8 @@ export const getAll = () => data
  * @param {Int} id
  * @param {String} topic
  * @returns void
+ *
+ * @TODO only update those attribute that contains truthy value.
  */
 export const put = ({ id, ...args}) => {
   const updatedData = data.map(thread => {
