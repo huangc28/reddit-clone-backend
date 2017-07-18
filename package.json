@@ -4,7 +4,7 @@
   "description": "simulate reddit like service backend",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon bin/server.js",
+    "dev": "NODE_ENV=development nodemon bin/server.js",
     "test": "jest"
   },
   "repository": {
