@@ -15,11 +15,11 @@ afterEach(() => {
   storage.init([])
 })
 
-describe('POST create/topic', () => {
+describe('POST /api/create/topic', () => {
   test('create topic failed, topic not provided', done => {
 
     request(app)
-      .post('/topic/create')
+      .post('/api/topic/create')
       .set('Accept', 'application/json')
       .expect(400)
       .end((err, res) => {
@@ -42,7 +42,7 @@ describe('POST create/topic', () => {
     // .field does not work, use send to post.
     // @issue: https://github.com/visionmedia/supertest/issues/189
     request(app)
-      .post('/topic/create')
+      .post('/api/topic/create')
       .type('form')
       .send({ topic: expectedResponse.data.topic })
       .set('Accept', 'application/json')
@@ -76,7 +76,7 @@ describe('PUT /topics/:topicId', () => {
 
     // upvote thread
     request(app)
-      .put(`/topic/${100}`)
+      .put(`/api/topic/${100}`)
       .type('form')
       .send(updatedPart)
       .expect(200)
@@ -94,7 +94,7 @@ describe('PUT /topics/:topicId', () => {
 })
 
 
-describe('GET /topics', () => {
+describe('GET /api/topics', () => {
   test('get all threads success', done => {
     // seed a list of data
     const threadList = [
@@ -121,7 +121,7 @@ describe('GET /topics', () => {
     storage.init(threadList)
 
     request(app)
-      .get('/topics')
+      .get('/api/topics')
       .expect(200)
       .end((err, res) => {
         expect(res.body.data).toEqual(threadList)
