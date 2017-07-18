@@ -7,7 +7,13 @@
  */
 import request from 'supertest';
 
+import storage from './memCache'
 import app from './index'
+
+afterEach(() => {
+  // clear storage
+  storage.init([])
+})
 
 describe('POST create/topic', () => {
   test('create topic failed, topic not provided', done => {
@@ -43,6 +49,82 @@ describe('POST create/topic', () => {
       .expect(200)
       .end((err, res) => {
         expect(res.body).toEqual(expectedResponse)
+
+        done()
+      })
+  })
+})
+
+describe('PUT /topics/:topicId', () => {
+  test('upvote thread success', done => {
+    const seed = {
+      id: 100,
+      topic: 'sample thread',
+      upvote: 123,
+      downvote: 321,
+    }
+    // seed fake data.
+    storage.init([ seed ])
+
+    // client has to post the original data alone with the new piece of data
+    // or I'll have to do a shallow comparison to find the diff of two objects.
+    const updatedPart = {
+      topic: 'this topic is boring',
+      upvote: 777, // increase in value
+      downvote: 321
+    }
+
+    // upvote thread
+    request(app)
+      .put(`/topic/${100}`)
+      .type('form')
+      .send(updatedPart)
+      .expect(200)
+      .end((err, res) => {
+        expect(res.body.data).toEqual(
+          {
+            ...seed,
+            ...updatedPart,
+          }
+        )
+
+        done()
+      })
+  })
+})
+
+
+describe('GET /topics', () => {
+  test('get all threads success', done => {
+    // seed a list of data
+    const threadList = [
+      {
+        id: 1,
+        topic: 'javascript es6',
+        upvote: 10,
+        downvote: 12,
+      },
+      {
+        id: 2,
+        topic: 'postgres',
+        upvote: 13,
+        downvote: 14,
+      },
+      {
+        id: 3,
+        topic: 'graphQL',
+        upvote: 15,
+        downvote: 16,
+      },
+    ]
+
+    storage.init(threadList)
+
+    request(app)
+      .get('/topics')
+      .expect(200)
+      .end((err, res) => {
+        expect(res.body.data).toEqual(threadList)
 
         done()
       })

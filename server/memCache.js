@@ -28,6 +28,9 @@
  *  topic: 'hello'
  *  downvote: 2
  * })
+ *
+ * @TODO:
+ *  update the attribute that only it is not 'undefined' or 'null'.
  */
 let data = []
 

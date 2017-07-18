@@ -18,8 +18,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
  * params: topic
  */
 app.post('/topic/create', (req, res, next) => {
-  console.log('body', req.body)
-
   const {
     body: {
       topic
@@ -81,17 +79,22 @@ app.put('/topic/:topicId', (req, res, next) => {
     },
   } = req
 
+  // parse data to int.
+  const intId = parseInt(topicId)
+  const intUpvote = upvote ? parseInt(upvote) : upvote
+  const intDownvote = downvote ? parseInt(downvote): downvote
+
   try {
     storage.put({
-      id: topicId,
+      id: intId,
       topic,
-      upvote,
-      downvote,
+      upvote: intUpvote,
+      downvote: intDownvote,
     })
 
     res.json({
       status: 200,
-      data: storage.get(topicId),
+      data: storage.get(intId),
     })
   } catch (error) {
     next(new Error(error.message))
