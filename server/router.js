@@ -8,7 +8,7 @@ const router = express.Router()
  *
  * params: topic
  */
-router.post('/topic/create', (req, res, next) => {
+router.post('/topic', (req, res, next) => {
   const {
     body: {
       topic

@@ -32,7 +32,7 @@ storage.init(defaultThreads)
 // initialize app
 const app = express()
 
-// enable cors for all origin
+// enable cors for all origins
 app.use(cors())
 
 app.use(bodyParser.json())

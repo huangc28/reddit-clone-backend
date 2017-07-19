@@ -15,11 +15,11 @@ afterEach(() => {
   storage.init([])
 })
 
-describe('POST /api/create/topic', () => {
+describe('POST /api/topic', () => {
   test('create topic failed, topic not provided', done => {
 
     request(app)
-      .post('/api/topic/create')
+      .post('/api/topic')
       .set('Accept', 'application/json')
       .expect(400)
       .end((err, res) => {
@@ -40,7 +40,7 @@ describe('POST /api/create/topic', () => {
     // .field does not work, use send to post.
     // @issue: https://github.com/visionmedia/supertest/issues/189
     request(app)
-      .post('/api/topic/create')
+      .post('/api/topic')
       .type('form')
       .send({ topic: expectedResponse.data.topic })
       .set('Accept', 'application/json')
