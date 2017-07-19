@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon bin/server.js",
     "start": "NODE_ENV=production node bin/server.js",
+    "start:prod": "NODE_ENV=production pm2 start node bin/server.js",
     "test": "jest"
   },
   "repository": {
