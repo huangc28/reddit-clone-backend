@@ -65,7 +65,7 @@ router.put('/topic/:topicId', (req, res, next) => {
     body: {
       topic,
       vote,
-    },
+    } = {},
   } = req
 
   // if topicId is not present, throw an Exception
@@ -74,14 +74,13 @@ router.put('/topic/:topicId', (req, res, next) => {
   }
 
   // parse data to int.
-  const intId = parseInt(topicId)
-  const intVote = vote ? parseInt(vote) : vote
+  const intId = parseInt(topicId, 10)
 
   try {
     storage.put({
       id: intId,
       topic,
-      vote: intVote,
+      vote: parseInt(vote, 10),
     })
 
     res.json({

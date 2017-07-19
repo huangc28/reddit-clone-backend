@@ -60,7 +60,7 @@ export const put = ({ id, ...args}) => {
   const updateArgs = {}
 
   Object.keys(args)
-    .filter(key => !!args[key])
+    .filter(key => key === 'vote' || !!args[key]) // here we make an exceptional case for "vote"
     .forEach(key => updateArgs[key] = args[key])
 
   const updatedData = data.map(thread => {
