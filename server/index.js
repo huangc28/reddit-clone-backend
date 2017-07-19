@@ -21,7 +21,7 @@ const defaultThreads = [
     vote: 200,
   },
   {
-    id: 1,
+    id: 3,
     topic: 'react native',
     vote: 234,
   },

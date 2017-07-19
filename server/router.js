@@ -42,21 +42,21 @@ router.post('/topic', (req, res, next) => {
 router.get('/topics', (req, res, next) => {
   try {
     const topics = storage.getAll()
+
+    // take first 20, sort the array by vote
+    const sortedArray = topics
+      .slice(0, 19)
+      .sort((t1, t2) => t2.vote - t1.vote)
+
     res.json({
       status: 200,
-      data: topics,
+      data: sortedArray,
     })
   } catch (error) {
     next(new Error(error.message))
   }
 })
 
-/**
- * payload
- *  topic,
- *  upvote,
- *  downvote,
- */
 router.put('/topic/:topicId', (req, res, next) => {
   const {
     params: {
@@ -67,6 +67,11 @@ router.put('/topic/:topicId', (req, res, next) => {
       vote,
     },
   } = req
+
+  // if topicId is not present, throw an Exception
+  if (!topicId) {
+    next(new Error('topic id is not provided'))
+  }
 
   // parse data to int.
   const intId = parseInt(topicId)

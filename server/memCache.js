@@ -18,7 +18,7 @@
  *
  * Usage:
  *
- * storage.init({...})
+ * storage.init([...])
  *
  * storage.get()
  * storage.put({
@@ -27,8 +27,6 @@
  *  vote: 3
  * })
  *
- * @TODO:
- *  update the attribute that only it is not 'undefined' or 'null'.
  */
 let data = []
 
@@ -57,11 +55,19 @@ export const getLatest = () => data.slice(0, 1)[0]
  * @TODO only update those attribute that contains truthy value.
  */
 export const put = ({ id, ...args}) => {
+  // if the value on the attribute in args object isn't truthy
+  // we don't replace the origin data.
+  const updateArgs = {}
+
+  Object.keys(args)
+    .filter(key => !!args[key])
+    .forEach(key => updateArgs[key] = args[key])
+
   const updatedData = data.map(thread => {
     if (thread.id === id) {
       return {
         ...thread,
-        ...args,
+        ...updateArgs,
       }
     }
 
