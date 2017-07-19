@@ -12,14 +12,13 @@ const dataList = [
   {
     id: 1,
     topic: 'apple is sweet',
-    upvote: 1,
-    downvote: 2,
+    vote: 12,
   },
   {
     id: 2,
     topic: 'apple is sweet',
     upvote: 3,
-    downvote: 64,
+    downvote: 98,
   }
 ]
 
@@ -44,8 +43,7 @@ describe('Threads cache operations', () => {
   test('add single thread', () => {
     const newThread = {
       topic: 'seriously...I smell toot',
-      upvote: 20,
-      downvote: 30,
+      vote: 23,
     }
 
     storage.add(newThread)
@@ -61,8 +59,7 @@ describe('Threads cache operations', () => {
     const updateThread = {
       id: 1,
       topic: 'Bryan is handsome',
-      upvote: 100,
-      downvote: 200,
+      vote: 46,
     }
 
     storage.put(updateThread)
@@ -71,6 +68,6 @@ describe('Threads cache operations', () => {
 
     const thread = storage.get(updateThread.id)
 
-    expect(updateThread).toEqual(thread)    
+    expect(updateThread).toEqual(thread)
   })
 })

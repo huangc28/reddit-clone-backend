@@ -6,14 +6,12 @@
  *   {
  *     id: 1,
  *     topic: 'apple is sweet',
- *     upvote: 1,
- *     downvote: 1,
+ *     vote: 3,
  *   },
  *   {
  *     id: 2,
  *     topic: 'I smell baby barf'
- *     downvote: 1,
- *     downvote: 2,
+ *     vote: 4,
  *   },
  *   ...
  * ]
@@ -26,7 +24,7 @@
  * storage.put({
  *  id: 1,
  *  topic: 'hello'
- *  downvote: 2
+ *  vote: 3
  * })
  *
  * @TODO:

@@ -34,8 +34,6 @@ describe('POST /api/create/topic', () => {
       status: 200,
       data: {
         topic: 'really, stop it... I smell toot',
-        upvote: 0,
-        downvote: 0
       }
     }
 
@@ -48,7 +46,13 @@ describe('POST /api/create/topic', () => {
       .set('Accept', 'application/json')
       .expect(200)
       .end((err, res) => {
-        expect(res.body).toEqual(expectedResponse)
+        expect(res.body).toEqual({
+          status: expectedResponse.status,
+          data: {
+            ...expectedResponse.data,
+            vote: 0,
+          },
+        })
 
         done()
       })
@@ -60,8 +64,7 @@ describe('PUT /topics/:topicId', () => {
     const seed = {
       id: 100,
       topic: 'sample thread',
-      upvote: 123,
-      downvote: 321,
+      vote: 888,
     }
     // seed fake data.
     storage.init([ seed ])
@@ -70,8 +73,7 @@ describe('PUT /topics/:topicId', () => {
     // or I'll have to do a shallow comparison to find the diff of two objects.
     const updatedPart = {
       topic: 'this topic is boring',
-      upvote: 777, // increase in value
-      downvote: 321
+      vote: seed.vote + 1,
     }
 
     // upvote thread
@@ -101,20 +103,17 @@ describe('GET /api/topics', () => {
       {
         id: 1,
         topic: 'javascript es6',
-        upvote: 10,
-        downvote: 12,
+        vote: 10,
       },
       {
         id: 2,
         topic: 'postgres',
-        upvote: 13,
-        downvote: 14,
+        vote: 33,
       },
       {
         id: 3,
         topic: 'graphQL',
-        upvote: 15,
-        downvote: 16,
+        vote: 44,
       },
     ]
 

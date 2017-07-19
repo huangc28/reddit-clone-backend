@@ -1,6 +1,7 @@
 import 'babel-polyfill'
 import express from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 
 import apiRouters from './router'
 import storage from './memCache'
@@ -12,20 +13,17 @@ const defaultThreads = [
   {
     id: 1,
     topic: 'javascript ES6',
-    upvote: 190,
-    downvote: 0,
+    vote: 109,
   },
   {
     id: 2,
     topic: 'react fiber',
-    upvote: 23,
-    downvote: 34,
+    vote: 200,
   },
   {
     id: 1,
     topic: 'react native',
-    upvote: 240,
-    downvote: 3,
+    vote: 234,
   },
 ]
 
@@ -33,6 +31,9 @@ storage.init(defaultThreads)
 
 // initialize app
 const app = express()
+
+// enable cors for all origin
+app.use(cors())
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))

@@ -28,8 +28,7 @@ router.post('/topic/create', (req, res, next) => {
   try {
     const newThread = {
       topic,
-      upvote: 0,
-      downvote: 0,
+      vote: 0,
     }
 
     storage.add(newThread)
@@ -65,22 +64,19 @@ router.put('/topic/:topicId', (req, res, next) => {
     } = {},
     body: {
       topic,
-      upvote,
-      downvote,
+      vote,
     },
   } = req
 
   // parse data to int.
   const intId = parseInt(topicId)
-  const intUpvote = upvote ? parseInt(upvote) : upvote
-  const intDownvote = downvote ? parseInt(downvote): downvote
+  const intVote = vote ? parseInt(vote) : vote
 
   try {
     storage.put({
       id: intId,
       topic,
-      upvote: intUpvote,
-      downvote: intDownvote,
+      vote: intVote,
     })
 
     res.json({
