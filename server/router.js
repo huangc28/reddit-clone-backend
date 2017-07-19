@@ -33,7 +33,7 @@ router.post('/topic/create', (req, res, next) => {
 
     storage.add(newThread)
 
-    res.json({ status: 200, data: newThread })
+    res.json({ status: 200, data: storage.getLatest() })
   } catch (error) {
     next(new Error(error.message))
   }

@@ -17,8 +17,7 @@ const dataList = [
   {
     id: 2,
     topic: 'apple is sweet',
-    upvote: 3,
-    downvote: 98,
+    vote: 98,
   }
 ]
 
@@ -50,8 +49,8 @@ describe('Threads cache operations', () => {
 
     const storageData = storage.getAll()
 
-    expect(storageData.pop()).toEqual(
-      Object.assign(newThread, { id: dataList.length + 1 })
+    expect(storageData.slice(0, 1)[0]).toEqual(
+      Object.assign(newThread, { id: dataList.length })
     )
   })
 

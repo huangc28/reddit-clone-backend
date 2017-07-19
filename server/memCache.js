@@ -47,6 +47,8 @@ export const get = id => {
 
 export const getAll = () => data
 
+export const getLatest = () => data.slice(0, 1)[0]
+
 /**
  * @param {Int} id
  * @param {String} topic
@@ -70,19 +72,16 @@ export const put = ({ id, ...args}) => {
  }
 
 /**
- * Append thread onto storage.
+ * Append thread onto the first element of the storage. FIFO
  *
  * @param {Object} thread
  * @returns void
  */
 export const add = thread => {
-  data = [
-    ...data,
-    {
-      id: data.length + 1,
-      ...thread,
-    }
-  ]
+  data.unshift({
+    id: data.length + 1,
+    ...thread,
+  })
 }
 
 /**
@@ -100,6 +99,7 @@ const storage = {
   data,
   getAll,
   get,
+  getLatest,
   put,
   add,
   init,

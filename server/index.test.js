@@ -49,6 +49,7 @@ describe('POST /api/create/topic', () => {
         expect(res.body).toEqual({
           status: expectedResponse.status,
           data: {
+            id: 1,
             ...expectedResponse.data,
             vote: 0,
           },
