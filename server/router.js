@@ -45,7 +45,7 @@ router.get('/topics', (req, res, next) => {
 
     // take first 20, sort the array by vote
     const sortedArray = topics
-      .slice(0, 19)
+      .slice(0, 20)
       .sort((t1, t2) => t2.vote - t1.vote)
 
     res.json({
