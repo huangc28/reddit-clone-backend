@@ -5,7 +5,8 @@
  *  - create/topic
  *  - topics
  */
-import request from 'supertest';
+import request from 'supertest'
+import faker from 'faker'
 
 import storage from './memCache'
 import app from './index'
@@ -102,9 +103,9 @@ describe('GET /api/topics', () => {
     // seed a list of data
     const threadList = [
       {
-        id: 1,
-        topic: 'javascript es6',
-        vote: 10,
+        id: 3,
+        topic: 'graphQL',
+        vote: 44,
       },
       {
         id: 2,
@@ -112,9 +113,9 @@ describe('GET /api/topics', () => {
         vote: 33,
       },
       {
-        id: 3,
-        topic: 'graphQL',
-        vote: 44,
+        id: 1,
+        topic: 'javascript es6',
+        vote: 10,
       },
     ]
 
@@ -125,6 +126,38 @@ describe('GET /api/topics', () => {
       .expect(200)
       .end((err, res) => {
         expect(res.body.data).toEqual(threadList)
+
+        done()
+      })
+  })
+
+  test('only the first 20 topics will be retrieved and sorted by vote', done => {
+    const fakeTopics = []
+
+    // seed 30 fake data into fake topics
+    for (let i = 0; i < 29; ++i) {
+      fakeTopics.push({
+        id: i + 1,
+        topic: faker.lorem.sentence(),
+        vote: faker.random.number(),
+      })
+    }
+
+    storage.init(fakeTopics)
+
+    request(app)
+      .get('/api/topics')
+      .expect(200)
+      .end((err, res) => {
+        // expect body length to be exactly 20
+        expect(res.body.data.length).toBe(20)
+
+        // expect the body is sorted by vote
+        const sortedFakeTopics = fakeTopics
+          .slice(0, 20)
+          .sort((t1, t2) => t2.vote - t1.vote)
+
+        expect(res.body.data).toEqual(sortedFakeTopics)
 
         done()
       })
